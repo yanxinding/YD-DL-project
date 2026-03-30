@@ -15,6 +15,7 @@ def _read_csv(name: str) -> pd.DataFrame:
 
 # Build team-season dataset with payroll + basic performance features
 def build_processed(start_year: int = 1985, end_year: int = 2016, overwrite: bool = False) -> pd.DataFrame:
+    # If processed file already exists, reuse it unless overwrite=True is specified
     if os.path.exists(OUT_PATH) and not overwrite:
         return pd.read_csv(OUT_PATH)
 

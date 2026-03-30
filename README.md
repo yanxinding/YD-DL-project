@@ -4,7 +4,7 @@
 This project studies how efficiently Major League Baseball (MLB) teams convert payroll into on-field success over time.
 
 We model this as a temporal prediction problem, where past team performance influences future outcomes. The project includes:
-- Predicting next-season wins
+- Predicting next-season wins  
 - Measuring efficiency as performance above/below expectation (residual)
 
 Models are trained on league-wide team-season data (1985–2016) and evaluated both globally and through a Toronto Blue Jays case study.
@@ -15,7 +15,7 @@ Models are trained on league-wide team-season data (1985–2016) and evaluated b
 - End-to-end data pipeline from Lahman dataset  
 - Classical baseline: Ridge Regression (lag features)  
 - Deep models:
-  - LSTM
+  - LSTM  
   - Transformer  
 - Time-aware train/validation/test split (no data leakage)  
 - Evaluation metrics: RMSE, MAE, R²  
@@ -47,18 +47,14 @@ Models are trained on league-wide team-season data (1985–2016) and evaluated b
 pip install -r requirements.txt
 ```
 
-Dependencies:
-- numpy  
-- pandas  
-- matplotlib  
-- scikit-learn  
-- torch  
-- jupyter  
-
 ---
 
 ### 2. Prepare data
-Download the Lahman Baseball Database and place the CSV files into:
+Download the Lahman Baseball Database:
+
+https://sabr.org/lahman-database/
+
+Download the CSV version and place the following files into:
 ```
 data/raw/
 ```
@@ -74,6 +70,11 @@ Run:
 ```python
 from feature import build_processed
 build_processed()
+```
+
+If you want to rebuild from scratch:
+```python
+build_processed(overwrite=True)
 ```
 
 This will:
@@ -99,12 +100,16 @@ data/processed.csv
 jupyter notebook analysis.ipynb
 ```
 
-The notebook includes:
-- Data loading  
-- Feature engineering  
-- Model training (Ridge, LSTM, Transformer)  
-- Evaluation and visualization  
-- Toronto Blue Jays case study  
+Run all cells from top to bottom.
+
+---
+
+## Expected Output
+Running the notebook will produce:
+- Model performance tables (RMSE, MAE, R²)
+- Prediction vs actual plots  
+- Ablation comparisons  
+- Toronto Blue Jays case study results  
 
 ---
 
@@ -120,7 +125,13 @@ Efficiency residual:
 r_{t+1} = W_{t+1} - Ŵ_{t+1}^{ridge}
 ```
 
-This measures performance beyond expected outcomes based on payroll and past data.
+---
+
+## Data Split
+To avoid temporal leakage:
+- Train: 1985–2008  
+- Validation: 2009–2012  
+- Test: 2013–2016  
 
 ---
 
@@ -152,14 +163,14 @@ To reproduce results:
 1. Install dependencies  
 2. Place Lahman data in `data/raw/`  
 3. Run `build_processed()`  
-4. Run `analysis.ipynb`  
+4. Run all cells in `analysis.ipynb`  
 
 ---
 
 ## Notes
-- Follows course requirements:
-  - baseline + deep models  
-  - ablation experiments  
-  - temporal modeling  
-  - proper evaluation  
-- Uses time-aware split to avoid data leakage  
+This project satisfies course requirements:
+- Classical baseline + deep temporal models  
+- Controlled variants (sequence length, feature subsets)  
+- Evaluation metrics (RMSE, MAE, R²)  
+- Ablation experiments and analysis  
+- Time-aware modeling to prevent data leakage  
